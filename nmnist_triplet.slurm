@@ -6,6 +6,7 @@
 #SBATCH --mem=16G                   # Memory per node
 #SBATCH --time=24:00:00            # Time limit hrs:min:sec
 #SBATCH --gres=gpu:1               # Request 1 GPU
+#SBATCH	--partition=gpu 			### Selection of the partition (default, gpu)
 
 # Activate conda environment
 conda activate eventvpr
