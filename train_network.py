@@ -13,6 +13,9 @@ import os
 from visualisation import visualize_embeddings, create_tsne_animation
 
 
+# Parameters for experimentations
+n_bins = 1
+
 class TripletNMNIST(torch.utils.data.Dataset):
     def __init__(self, dataset):
         self.dataset = dataset
@@ -62,7 +65,7 @@ def reshape_data(events):
 
 def get_dataset(train=False):
     sensor_size = tonic.datasets.NMNIST.sensor_size
-    transform_seq = transforms.ToFrame(sensor_size=sensor_size, n_time_bins=1)
+    transform_seq = transforms.ToFrame(sensor_size=sensor_size, n_time_bins=n_bins)
     dataset = tonic.datasets.NMNIST(save_to="./data", train=True, transform=transform_seq)
     return dataset
 
@@ -197,7 +200,7 @@ if __name__ == "__main__":
     test_dataloader = to_dataloader(test_dataset, batch_size=8)
 
     # Create model
-    model = SNNEncoder(input_dim=2 * 20, hidden_dim=128, output_dim=10) 
+    model = SNNEncoder(input_dim=2 * n_bins, hidden_dim=128, output_dim=10) 
 
     criterion = nn.TripletMarginLoss(margin=1.0)
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
